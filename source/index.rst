@@ -8,7 +8,9 @@ Welcome to Jupyter_Notebook_Doc_CN's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: 使用文档
+
+   notebook
 
 
 
