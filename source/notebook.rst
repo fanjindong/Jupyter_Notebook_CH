@@ -80,172 +80,139 @@ without relying on nbviewer.
     :ref:`Details on the notebook JSON file format <nbformat:notebook_file_format>`
 
 
-Notebooks and privacy
+Notebooks的数据安全
 ~~~~~~~~~~~~~~~~~~~~~
 
-Because you use Jupyter in a web browser, some people are understandably
-concerned about using it with sensitive data.
-However, if you followed the standard
-`install instructions <https://jupyter.readthedocs.io/en/latest/install.html>`_,
-Jupyter is actually running on your own computer.
-If the URL in the address bar starts with ``http://localhost:`` or
-``http://127.0.0.1:``, it's your computer acting as the server.
-Jupyter doesn't send your data anywhere else—and as it's open source,
-other people can check that we're being honest about this.
+因为你在web浏览器上使用Jupyter，一些人会关系数据敏感问题。
+然而，如果你遵循安装标准`install instructions <https://jupyter.readthedocs.io/en/latest/install.html>`_,
+Jupyter事实上是运行在你自己的电脑上。
+如果URL地址栏开始于 ``http://localhost:`` 或者``http://127.0.0.1:``, 
+这是你的电脑作为这个服务器。Jupyter 不会发送你的数据到任何地方，而且它是开源的，
+也欢迎任何人监督我们在这方面确实是诚实的。
 
-You can also use Jupyter remotely:
-your company or university might run the server for you, for instance.
-If you want to work with sensitive data in those cases,
-talk to your IT or data protection staff about it.
+你也可以使用远程的Jupyter:
+你的公司或者大学应该帮你配置这个服务器给你，例如，
+如果你想要保证工作的的某些敏感数据的安全，你应该要求你的IT或数据安全部门来帮助你。
 
-We aim to ensure that other pages in your browser or other users on the same
-computer can't access your notebook server. See :ref:`server_security` for
-more about this.
+我们为了确保你浏览器的其他页面或者和你共用一个电脑的其他用户不能够访问你的notebook服务。可以看
+:ref:`server_security` 来获取更多信息。
 
 
-Starting the notebook server
+开始notebook服务
 ----------------------------
 
-You can start running a notebook server from the command line using the
-following command::
+你可以运行一个notebook服务，通过使用如下命令行::
 
     jupyter notebook
 
-This will print some information about the notebook server in your console,
-and open a web browser to the URL of the web application (by default,
+这将会在你的控制台打印关于这个notebook服务的一些信息，
+然后你就可以根据这个web应用的URL来打开一个web浏览器(默认为
 ``http://127.0.0.1:8888``).
 
-The landing page of the Jupyter notebook web application, the **dashboard**,
-shows the notebooks currently available in the notebook directory (by default,
-the directory from which the notebook server was started).
+这个web应用Jupyter notebook的登陆页面,
+the **dashboard**,
+展示了这个notebook在当前目前下，可获取的notebooks文件。
+(默认情况下，这个目录是notebook服务开启的地方).
 
-You can create new notebooks from the dashboard with the ``New Notebook``
-button, or open existing ones by clicking on their name.  You can also drag
-and drop ``.ipynb`` notebooks and standard ``.py`` Python source code files
-into the notebook list area.
+你现在可以从这个dashboard，通过``New Notebook``按钮来创建一个新的notebooks文件，
+或者通过点击文件名来打开一个已经存在的文件。
+你也可以拖放 ``.ipynb`` notebooks和标准的``.py`` Python源代码文件到notebook列表。
 
-When starting a notebook server from the command line, you can also open a
-particular notebook directly, bypassing the dashboard, with ``jupyter notebook
-my_notebook.ipynb``. The ``.ipynb`` extension is assumed if no extension is
-given.
+当从命令行开始一个notebook服务，你可以打开一个具体notebook目录，通过这个dashboard，
+如 ``jupyter notebook
+my_notebook.ipynb``. 如果你没有变更扩展名，则默认扩展名为 ``.ipynb``
 
-When you are inside an open notebook, the `File | Open...` menu option will
-open the dashboard in a new browser tab, to allow you to open another notebook
-from the notebook directory or to create a new notebook.
+当你在一个打开的notebook应用内，这个`File | Open...`菜单选项将能够打开一个新的dashboard标签页，
+将允许你从另外的notebook目录或者创建一个新的notebook来打开另外一个notebook。
 
 
 .. note::
+   你可以在同一时间开启多个notebook服务，如果你想要在不同的目录下运行notebooks，
+   默认第一个notebook服务端口为8888，之后启动的notebook服务端口，会搜索之前服务的端口在其附近确定。
+   你可以通过``--port`` 选项来手动指定服务端口
 
-   You can start more than one notebook server at the same time, if you want
-   to work on notebooks in different directories.  By default the first
-   notebook server starts on port 8888, and later notebook servers search for
-   ports near that one.  You can also manually specify the port with the
-   ``--port`` option.
-
-Creating a new notebook document
+创建一个新的notebook文件
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A new notebook may be created at any time, either from the dashboard, or using
-the :menuselection:`File --> New` menu option from within an active notebook.
-The new notebook is created within the same directory and will open in a new
-browser tab. It will also be reflected as a new entry in the notebook list on
-the dashboard.
+一个新的notebook可以再任何时间被创建，通过这个dashboard或者使用这个
+:menuselection:`File --> New` 菜单选项。
+在同一个目录下创建一个新的notebook，将会打开一个新的浏览器标签。
+他将反馈为dashboard界面上的notebook列表里面的新条目。
 
 .. image:: _static/images/new-notebook.gif
 
 
-Opening notebooks
+打开notebooks
 ~~~~~~~~~~~~~~~~~
-An open notebook has **exactly one** interactive session connected to a
-kernel, which will execute code sent by the user
-and communicate back results.  This kernel remains active if the web browser
-window is closed, and reopening the same notebook from the dashboard will
-reconnect the web application to the same kernel. In the dashboard, notebooks
-with an active kernel have a ``Shutdown`` button next to them, whereas
-notebooks without an active kernel have a ``Delete`` button in its place.
+打开的笔记本只有一个连接到kernel的交互式会话，它将执行用户发送的代码并传回结果。
+如果Web浏览器窗口关闭，此kernel将保持活动状态，
+并从dashboard重新打开同一笔记本,会将Web应用程序连接到同一kernel。
+在dashboard中，具有活动kernel的笔记本旁边有一个关机按钮，而没有活动kernel的笔记本在其位置有一个删除按钮。
 
-Other clients may connect to the same kernel.
-When each kernel is started, the notebook server prints to the terminal a
-message like this::
+其他客户端可能会链接到同一个kernel上。当每个kernel被启动，则这个notebook服务会打印到终端一条信息::
 
     [NotebookApp] Kernel started: 87f7d2c0-13e3-43df-8bb8-1bd37aaf3373
+这个长字符串是kernel的ID，通过它足以获取连接到kernel所需的信息。
+如果这个notebook使用的是IPython kernel，你可以通过执行``%connect_info`` :ref:`magic
+<magics_explained>`，来看到这些链接数据，它将会打印同样的ID以及其他方面的信息。
 
-This long string is the kernel's ID which is sufficient for getting the
-information necessary to connect to the kernel. If the notebook uses the IPython
-kernel, you can also see this
-connection data by running the ``%connect_info`` :ref:`magic
-<magics_explained>`, which will print the same ID information along with other
-details.
-
-You can then, for example, manually start a Qt console connected to the *same*
-kernel from the command line, by passing a portion of the ID::
+例如，您可以通过传递ID的一部分来手动启动从命令行连接到同一kernel的Qt控制台::
 
     $ jupyter qtconsole --existing 87f7d2c0
 
-Without an ID, ``--existing`` will  connect to the most recently
-started kernel.
+没有ID时，``--existing``将连接到最近启动的kernel。
 
-With the IPython kernel, you can also run the ``%qtconsole``
-:ref:`magic <magics_explained>` in the notebook to open a Qt console connected
-to the same kernel.
+在使用IPython kernel情况下，你可以在你的notebook打开Qt控制台运行``%qtconsole``
+:ref:`magic <magics_explained>`来链接到同一个kernel。
 
 .. seealso::
 
     :ref:`ipythonzmq`
 
-Notebook user interface
+Notebook 的用户界面
 -----------------------
 
-When you create a new notebook document, you will be presented with the
-**notebook name**, a **menu bar**, a **toolbar** and an empty **code cell**.
+当你创建一个新的notebook文件，你将会看到
+**文件名：notebook name**, 一个 **菜单栏：menu bar**, 一个 **工具栏：toolbar** 以及一个空的 **代码单元：code cell**.
 
 .. image:: ./_static/images/blank-notebook-ui.png
 
-**Notebook name**: The name displayed at the top of the page,
-next to the Jupyter logo, reflects the name of the ``.ipynb`` file.
-Clicking on the notebook name brings up a dialog which allows you to rename it.
-Thus, renaming a notebook
-from "Untitled0" to "My first notebook" in the browser, renames the
-``Untitled0.ipynb`` file to ``My first notebook.ipynb``.
+**Notebook name**: 显示在页面顶部，Jupyter logo旁边的名称反映了.ipynb文件的名称。
+单击笔记本名称会弹出一个对话框，允许您重命名它。
+因此，在浏览器中将笔记本从"Untitled0"重命名为"My first notebook"，
+将``Untitled0.ipynb``文件重命名为``My first notebook.ipynb``。
 
-**Menu bar**: The menu bar presents different options that may be used to
-manipulate the way the notebook functions.
+**Menu bar**: 菜单栏提供了可用于操纵notebook功能的不同选项
 
-**Toolbar**: The tool bar gives a quick way of performing the most-used
-operations within the notebook, by clicking on an icon.
+**Toolbar**: 通过单击图标，工具栏可以快速执行notebook中最常用的操作。
 
-**Code cell**: the default type of cell; read on for an explanation of cells.
+**Code cell**: 默认的单元格类型;继续阅读单元格的解释。
 
 
-Structure of a notebook document
+notebook 文档的结构
 --------------------------------
 
-The notebook consists of a sequence of cells.  A cell is a multiline text input
-field, and its contents can be executed by using :kbd:`Shift-Enter`, or by
-clicking either the "Play" button the toolbar, or :guilabel:`Cell`, :guilabel:`Run` in the menu bar.
-The execution behavior of a cell is determined by the cell's type.  There are three
-types of cells: **code cells**, **markdown cells**, and **raw cells**.  Every
-cell starts off being a **code cell**, but its type can be changed by using a
-drop-down on the toolbar (which will be "Code", initially), or via
-:ref:`keyboard shortcuts <keyboard-shortcuts>`.
+notebook包含一系列单元格。单元格是多行文本输入字段，其内容可以使用:kbd:`Shift-Enter`执行，
+也可以通过单击工具栏中的"Play"按钮或菜单栏中的:guilabel:`Cell`，:guilabel:`Run`来执行。
+单元格的执行行为由单元格的类型决定。有三种类型的单元格：**code cells**，, **markdown cells**, **raw cells**.
+每个单元格初始都是一个**code cell**，但可以通过工具栏上的下拉菜单或键盘快捷键:ref:`keyboard shortcuts <keyboard-shortcuts>`来更改其类型。
 
-For more information on the different things you can do in a notebook,
-see the `collection of examples
+有关可以在notebook中执行的各种操作的更多信息，请参阅示例集合。
+`collection of examples
 <https://nbviewer.jupyter.org/github/jupyter/notebook/tree/master/docs/source/examples/Notebook/>`_.
 
 Code cells
 ~~~~~~~~~~
+*code cell* 允许您编辑和编写新代码，完整的语法突出显示和选项卡完成。
+您使用的编程语言取决于*kernel*，默认kernel（IPython）运行Python代码。
 A *code cell* allows you to edit and write new code, with full syntax
 highlighting and tab completion. The programming language you use depends
 on the *kernel*, and the default kernel (IPython) runs Python code.
 
-When a code cell is executed, code that it contains is sent to the kernel
-associated with the notebook.  The results that are returned from this
-computation  are then displayed in the notebook as the cell's *output*. The
-output is not limited to text, with many other possible forms of output are
-also possible, including ``matplotlib`` figures and HTML tables (as used, for
-example, in the ``pandas`` data analysis package). This is known as IPython's
-*rich display* capability.
+执行code cell时，它包含的代码将发送到与notebook相关联的kernel。
+然后，从该计算返回的结果将作为单元格的输出*output*显示在notebook中。
+输出不限于文本，还可以使用许多其他可能的输出形式，包括``matplotlib``图和HTML表（例如，在``pandas``数据分析包中使用）。
+这被称为IPython丰富的显示功能。
 
 .. seealso::
 
@@ -253,23 +220,21 @@ example, in the ``pandas`` data analysis package). This is known as IPython's
 
 Markdown cells
 ~~~~~~~~~~~~~~
-You can document the computational process in a literate way, alternating
-descriptive text with code, using *rich text*. In IPython this is accomplished
-by marking up text with the Markdown language. The corresponding cells are
-called *Markdown cells*. The Markdown language provides a simple way to
-perform this text markup, that is, to specify which parts of the text should
-be emphasized (italics), bold, form lists, etc.
+您可以使用富文本以有文化的方式记录计算过程，将描述性文本与代码交替。
+在IPython中，这是通过使用Markdown语言标记文本来完成的。
+相应的单元称为Markdown单元。 
+Markdown语言提供了一种执行此文本标记的简单方法，即指定应强调文本的哪些部分（斜体），粗体，表单列表等。
 
-If you want to provide structure for your document, you can use markdown
-headings. Markdown headings consist of 1 to 6 hash # signs ``#`` followed by a
-space and the title of your section. The markdown heading will be converted
-to a clickable link for a section of the notebook. It is also used as a hint
-when exporting to other document formats, like PDF.
+如果要为文档提供结构，可以使用markdown标题。 
+Markdown标题包含1到6个标记``#``，后跟空格和部分标题。
+markdown标题将转换为笔记本部分的可点击链接。
+在导出为PDF等其他文档格式时，它也可用作提示。
 
-When a Markdown cell is executed, the Markdown code is converted into
-the corresponding formatted rich text. Markdown allows arbitrary HTML code for
-formatting.
+执行Markdown单元格时，Markdown代码将转换为相应的格式化富文本。 Markdown允许任意HTML代码进行格式化。
 
+在Markdown单元格中，您还可以使用标准的LaTeX表示法以简单的方式包含数学：``$...$``用于内联数学，``$$...$$``用于显示数学。
+执行Markdown单元格时，LaTeX部分会自动在HTML输出中呈现为具有高质量排版的方程式。
+这是由MathJax实现的，它支持大量的LaTeX功能。
 Within Markdown cells, you can also include *mathematics* in a straightforward
 way, using standard LaTeX notation: ``$...$`` for inline mathematics and
 ``$$...$$`` for displayed mathematics. When the Markdown cell is executed,
